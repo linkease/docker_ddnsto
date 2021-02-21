@@ -24,4 +24,4 @@ docker run -d \
 
 ## 镜像地址
 
-https://hub.docker.com/r/linkease/linkease/
+https://hub.docker.com/r/linkease/ddnsto/

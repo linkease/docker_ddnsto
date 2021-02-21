@@ -5,6 +5,9 @@ if [ -z "${TOKEN}" ]; then
   exit 2
 fi
 
+echo "ddnsto version device_id is is:"
+/sbin/ddnsto -u ${TOKEN} -w
+
 while true ; do
   if ! pidof "ddnsto" > /dev/null ; then
     echo "ddnsto try running"
