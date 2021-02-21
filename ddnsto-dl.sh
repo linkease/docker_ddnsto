@@ -38,7 +38,7 @@ wget -O /usr/bin/linkease https://firmware.koolshare.cn/binary/ddnsto/${DDNSTO_F
 if [ $? -ne 0 ]; then
     echo "Error: Failed to download binary file: ${DDNSTO_FILE}" && exit 1
 fi
-echo "Download binary file: ${LINKEASE_FILE} completed"
+echo "Download binary file: ${DDNSTO_FILE} completed"
 
 chmod +x /usr/bin/ddnsto
 
