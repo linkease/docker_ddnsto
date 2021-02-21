@@ -1,4 +1,4 @@
-# Dockerfile for LinkEase based alpine
+# Dockerfile for DDNSTO based alpine
 # Copyright (C) 2020 - 2020 Janson <janson@linkease.com>
 # Reference URL:
 # https://www.ddnsto.com/
@@ -12,10 +12,9 @@ RUN set -ex \
 	&& chmod +x /root/ddnsto-dl.sh \
 	&& /root/ddnsto-dl.sh "${TARGETPLATFORM}"
 
-VOLUME /ddnsto-config
-
 ENV TZ=Asia/Shanghai
+ENV TOKEN=
+ENV DEVICE_IDX=0
+ENV LOG_LEVEL=2
 
-ENV DDNSTO_CONFIG=/ddnsto-config
-
-CMD [ "/usr/bin/ddnsto"]
+CMD [ "/usr/bin/ddnsto-monitor.sh"]
