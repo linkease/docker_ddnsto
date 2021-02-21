@@ -13,7 +13,7 @@ COPY ddnsto /usr/bin/ddnsto
 #	&& chmod +x /root/ddnsto-dl.sh \
 #	&& /root/ddnsto-dl.sh
 
-RUN chmod +x /usr/bin/ddnsto-monitor.sh /sbin/ddnsto
+RUN chmod +x /usr/bin/ddnsto-monitor.sh /usr/bin/ddnsto
 
 ENV TZ=Asia/Shanghai
 ENV TOKEN=
