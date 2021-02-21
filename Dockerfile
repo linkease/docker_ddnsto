@@ -8,7 +8,7 @@ LABEL maintainer="Janson <janson@linkease.com>"
 
 COPY ddnsto-dl.sh /root/ddnsto-dl.sh
 COPY ddnsto-monitor.sh /usr/bin/ddnsto-monitor.sh
-COPY ddnsto /sbin/ddnsto
+COPY ddnsto /usr/bin/ddnsto
 #RUN set -ex \
 #	&& chmod +x /root/ddnsto-dl.sh \
 #	&& /root/ddnsto-dl.sh

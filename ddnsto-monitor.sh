@@ -6,12 +6,12 @@ if [ -z "${TOKEN}" ]; then
 fi
 
 echo "ddnsto version device_id is is:"
-/sbin/ddnsto -u ${TOKEN} -w
+/usr/bin/ddnsto -u ${TOKEN} -w
 
 while true ; do
   if ! pidof "ddnsto" > /dev/null ; then
     echo "ddnsto try running"
-    /sbin/ddnsto -u ${TOKEN} -x ${DEVICE_IDX} -l ${LOG_LEVEL}
+    /usr/bin/ddnsto -u ${TOKEN} -x ${DEVICE_IDX} -l ${LOG_LEVEL}
     RET=$?
     echo "EXIT CODE: ${RET}" 
     if [ "${RET}" == "100" ]; then
