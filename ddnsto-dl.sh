@@ -34,7 +34,7 @@ fi
 [ -z "${DDNSTO_FILE}" ] && echo "Error: Not supported OS Architecture" && exit 1
 
 echo "Downloading binary file: ${DDNSTO_FILE}"
-wget -O /usr/bin/ddnsto https://firmware.koolshare.cn/binary/ddnsto/${DDNSTO_FILE}/ddnsto > /dev/null 2>&1
+wget --no-check-certificate -O /usr/bin/ddnsto https://fw.koolcenter.com/binary/ddnsto/linux/${DDNSTO_FILE}/ddnsto >/dev/null 2>&1
 if [ $? -ne 0 ]; then
     echo "Error: Failed to download binary file: ${DDNSTO_FILE}" && exit 1
 fi

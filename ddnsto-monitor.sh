@@ -5,6 +5,8 @@ if [ -z "${TOKEN}" ]; then
   exit 2
 fi
 
+ln -s /ddnsto-config/.ddnsto_boot.cfg /usr/bin/.ddnsto_boot.cfg || true
+
 echo "ddnsto version device_id is is:"
 /usr/bin/ddnsto -u ${TOKEN} -w
 

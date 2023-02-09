@@ -8,10 +8,10 @@ LABEL maintainer="Janson <janson@linkease.com>"
 
 COPY ddnsto-dl.sh /root/ddnsto-dl.sh
 COPY ddnsto-monitor.sh /usr/bin/ddnsto-monitor.sh
-COPY ddnsto /usr/bin/ddnsto
-#RUN set -ex \
-#	&& chmod +x /root/ddnsto-dl.sh \
-#	&& /root/ddnsto-dl.sh
+#COPY ddnsto /usr/bin/ddnsto
+RUN set -ex \
+	&& chmod +x /root/ddnsto-dl.sh \
+	&& /root/ddnsto-dl.sh
 
 RUN chmod +x /usr/bin/ddnsto-monitor.sh /usr/bin/ddnsto
 
@@ -19,5 +19,6 @@ ENV TZ=Asia/Shanghai
 ENV TOKEN=
 ENV DEVICE_IDX=0
 ENV LOG_LEVEL=2
+ENV DDNSTO_CONFIG=/ddnsto-config
 
 CMD [ "/usr/bin/ddnsto-monitor.sh"]
