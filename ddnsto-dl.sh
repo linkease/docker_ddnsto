@@ -33,10 +33,16 @@ else
 fi
 [ -z "${DDNSTO_FILE}" ] && echo "Error: Not supported OS Architecture" && exit 1
 
-echo "Downloading binary file: ${DDNSTO_FILE}"
-wget --no-check-certificate -O /usr/bin/ddnsto https://fw.koolcenter.com/binary/ddnsto/linux/${DDNSTO_FILE}/ddnsto >/dev/null 2>&1
+if [ "${DDNSTO_FILE}" = "x64" ]; then
+    DOWNLOAD_URL="https://fw0.koolcenter.com/binary/ddnsto/linux/ddnsto.amd64"
+else
+    DOWNLOAD_URL="https://fw.koolcenter.com/binary/ddnsto/linux/${DDNSTO_FILE}/ddnsto"
+fi
+
+echo "Downloading binary file from: ${DOWNLOAD_URL}"
+wget --no-check-certificate -O /usr/bin/ddnsto "${DOWNLOAD_URL}" >/dev/null 2>&1
 if [ $? -ne 0 ]; then
-    echo "Error: Failed to download binary file: ${DDNSTO_FILE}" && exit 1
+    echo "Error: Failed to download binary file from: ${DOWNLOAD_URL}" && exit 1
 fi
 echo "Download binary file: ${DDNSTO_FILE} completed"
 
