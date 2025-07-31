@@ -17,8 +17,7 @@ RUN chmod +x /usr/bin/ddnsto-monitor.sh /usr/bin/ddnsto
 
 ENV TZ=Asia/Shanghai
 ENV TOKEN=
-ENV DEVICE_IDX=0
+ENV DEVICE_NAME=
 ENV LOG_LEVEL=2
-ENV DDNSTO_CONFIG=/ddnsto-config
 
 CMD [ "/usr/bin/ddnsto-monitor.sh"]

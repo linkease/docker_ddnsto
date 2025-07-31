@@ -2,14 +2,14 @@
 
 PLATFORM=$1
 if [ -z "$PLATFORM" ]; then
-    DDNSTO_FILE="x64"
+    DDNSTO_FILE="x86_64"
 else
     case "$PLATFORM" in
         linux/386)
             DDNSTO_FILE=""
             ;;
         linux/amd64)
-            DDNSTO_FILE="x64"
+            DDNSTO_FILE="x86_64"
             ;;
         linux/arm/v6)
             DDNSTO_FILE="arm"
@@ -33,11 +33,7 @@ else
 fi
 [ -z "${DDNSTO_FILE}" ] && echo "Error: Not supported OS Architecture" && exit 1
 
-if [ "${DDNSTO_FILE}" = "x64" ]; then
-    DOWNLOAD_URL="https://fw0.koolcenter.com/binary/ddnsto/linux/ddnsto.amd64"
-else
-    DOWNLOAD_URL="https://fw.koolcenter.com/binary/ddnsto/linux/${DDNSTO_FILE}/ddnsto"
-fi
+DOWNLOAD_URL="https://fw0.koolcenter.com/binary/ddnsto/linux/ddnstox/ddnstox.${DDNSTO_FILE}"
 
 echo "Downloading binary file from: ${DOWNLOAD_URL}"
 wget --no-check-certificate -O /usr/bin/ddnsto "${DOWNLOAD_URL}" >/dev/null 2>&1
