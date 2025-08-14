@@ -2,7 +2,7 @@
 
 # 定义需要下载的架构列表
 ARCH_LIST="x86_64 arm aarch64"
-BIN_DIR="./bin"
+BIN_DIR="./dest"
 
 # 创建 bin 目录（如果不存在）
 mkdir -p "${BIN_DIR}"
