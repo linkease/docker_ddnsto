@@ -10,9 +10,8 @@ if [ -z "${DEVICE_NAME}" ]; then
   exit 2
 fi
 
-
 echo "ddnsto version device_id is:"
-/usr/bin/ddnsto -u ${TOKEN} -m ${DEVICE_NAME} -w
+/usr/bin/ddnsto -u ${TOKEN} -m ${DEVICE_NAME} -w 
 
 # 启动日志转发进程（后台运行）
 tail_logs() {
@@ -30,8 +29,11 @@ tail_logs
 while true ; do
   if ! pidof "ddnsto" > /dev/null ; then
     echo "ddnsto try running"
-    /usr/bin/ddnsto -u ${TOKEN} -m ${DEVICE_NAME}
-    
+    if [ -n "${SUPPLIER_CODE}" ]; then
+      /usr/bin/ddnsto -u ${TOKEN} -m ${DEVICE_NAME} --supplierCode=${SUPPLIER_CODE}
+    else
+      /usr/bin/ddnsto -u ${TOKEN} -m ${DEVICE_NAME}
+    fi
     RET=$?
     echo "EXIT CODE: ${RET}"
     
