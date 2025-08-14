@@ -32,6 +32,6 @@ else
     esac
 fi
 [ -z "${DDNSTO_FILE}" ] && echo "Error: Not supported OS Architecture" && exit 1
-DDNSTO_FILE="dest/ddnstox.${DDNSTO_FILE}"
+DDNSTO_FILE="/dest/ddnstox.${DDNSTO_FILE}"
 cp -f "${DDNSTO_FILE}" /usr/bin/ddnsto
 chmod +x /usr/bin/ddnsto
