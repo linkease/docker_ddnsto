@@ -60,5 +60,15 @@ fi
 [ -n "$DDNSTO_FILE" ] || { echo "Error: Not supported OS Architecture" >&2; exit 1; }
 [ -f "$DIST_DIR/ddnsto.$DDNSTO_FILE" ] || { echo "Error: Missing binary: $DIST_DIR/ddnsto.$DDNSTO_FILE" >&2; exit 1; }
 
+# The monitor requires persistent identity support. Refuse older release archives
+# at build time instead of shipping an image that silently loses identity.
+if ! CLIENT_HELP=$("$DIST_DIR/ddnsto.$DDNSTO_FILE" --help 2>&1); then
+    echo "Error: Cannot execute target binary to verify identity support" >&2
+    exit 1
+fi
+if ! printf '%s\n' "$CLIENT_HELP" | grep -q -- '-identity-file'; then
+    echo "Error: Binary lacks --identity-file; build/publish a client with persistent identity support first" >&2
+    exit 1
+fi
 install -m 0755 "$DIST_DIR/ddnsto.$DDNSTO_FILE" "$DEST_BIN"
 echo "Installed $DIST_DIR/ddnsto.$DDNSTO_FILE -> $DEST_BIN"

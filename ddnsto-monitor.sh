@@ -32,12 +32,18 @@ validate_device_idx() {
 
 validate_device_idx
 
+# Identity is owned by the client and persisted before any server connection.
+# Keep the path fixed so rebuilding the container reuses the mounted state.
+run_ddnsto() {
+  if [ -n "${DEVICE_IDX:-}" ]; then
+    /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}" -x "${DEVICE_IDX}" --identity-file /ddnsto-config/identity.json "$@"
+  else
+    /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}" --identity-file /ddnsto-config/identity.json "$@"
+  fi
+}
+
 echo "ddnsto version device_id is:"
-if [ -n "${DEVICE_IDX:-}" ]; then
-  /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}" -x "${DEVICE_IDX}" -w
-else
-  /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}" -w
-fi
+run_ddnsto -w
 
 print_support_help() {
   echo "support bundle path: ${DDNSTO_SUPPORT_DIR:-/ddnsto-support}/latest/ddnsto-support.zip"
@@ -77,23 +83,19 @@ start_auto_bundle_loop
 while true ; do
   if ! pidof "ddnsto" > /dev/null ; then
     echo "ddnsto try running"
+    RET=0
     if [ -n "${SUPPLIER_CODE:-}" ]; then
-      if [ -n "${DEVICE_IDX:-}" ]; then
-        /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}" -x "${DEVICE_IDX}" --supplierCode="${SUPPLIER_CODE}"
-      else
-        /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}" --supplierCode="${SUPPLIER_CODE}"
-      fi
+      run_ddnsto --supplierCode="${SUPPLIER_CODE}" || RET=$?
     else
-      if [ -n "${DEVICE_IDX:-}" ]; then
-        /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}" -x "${DEVICE_IDX}"
-      else
-        /usr/bin/ddnsto -u "${TOKEN}" -m "${DEVICE_NAME}"
-      fi
+      run_ddnsto || RET=$?
     fi
-    RET=$?
     echo "EXIT CODE: ${RET}"
     /usr/bin/ddnsto-support.sh auto process-exit >/dev/null 2>&1 || true
     
+    if [ "${RET}" = "205" ] || [ "${RET}" = "2" ]; then
+      echo "identity/configuration error; preserve /ddnsto-config and fix the reported error"
+      exit "${RET}"
+    fi
     if [ "${RET}" = "100" ]; then
       echo "token error, please set a correct token from https://www.ddnsto.com/ "
       exit 100
