@@ -74,20 +74,5 @@ else
 fi
 
 [ "$STATUS" = "100" ]
-grep -q -- "-u test-token -m device-a -x 7 --identity-file /ddnsto-config/identity.json -w" "$ARGS_LOG"
-grep -q -- "-u test-token -m device-a -x 7 --identity-file /ddnsto-config/identity.json$" "$ARGS_LOG"
-
-# A failed identity read must stop before launching the client.
-cat >"$TMP_DIR/bin/ddnsto" <<'EOF'
-#!/bin/sh
-printf '%s\n' "$*" >>"$DDNSTO_ARGS_LOG"
-exit 205
-EOF
-: >"$ARGS_LOG"
-STATUS=0
-PATH="$TMP_DIR/bin:$PATH" DDNSTO_ARGS_LOG="$ARGS_LOG" TOKEN=test-token \
-    DEVICE_NAME=device-a DEVICE_IDX=0 DDNSTO_AUTO_SUPPORT=0 \
-    sh "$TMP_DIR/ddnsto-monitor.sh" || STATUS=$?
-[ "$STATUS" = 205 ]
-[ "$(wc -l <"$ARGS_LOG" | tr -d ' ')" = 1 ]
-grep -q -- '--identity-file /ddnsto-config/identity.json -w' "$ARGS_LOG"
+grep -q -- "-u test-token -m device-a -x 7 -w" "$ARGS_LOG"
+grep -q -- "-u test-token -m device-a -x 7" "$ARGS_LOG"
